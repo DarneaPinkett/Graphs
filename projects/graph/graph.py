@@ -13,26 +13,43 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
+        to_visit = Queue()
+        to_visit.enqueue(starting_vertex)
+
+        visted = set()
+
+        while to_visit.size() > 0:
+            current_vertex = to_visit.dequeue()
+            if current_vertex not in visted:
+                print(current_vertex)
+                visted.add(current_vertex)
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visted:
+                        to_visit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
         """
@@ -56,7 +73,21 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+        while q.size() > 0:
+            current_path = q.dequeue()
+            last_vertex = current_path[-1]
+            if last_vertex not in visited:
+                if last_vertex == destination_vertex:
+                    return current_path
+                visited.add(last_vertex)
+                for v in self.vertices[last_vertex]:
+                    new_path = [*current_path]
+                    new_path.append(v)
+                    q.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
